@@ -1,7 +1,10 @@
 package com.url.shortener.api.model;
 
 import java.time.LocalDateTime;
+import java.time.Instant;
 
+import org.springframework.cglib.core.Local;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -10,12 +13,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Document
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
 public class Url {
+    private final static int EXPIRATION_SECONDS = 10 * 24 * 36000; //10 days
     @MongoId
     private String id;
     private String url;
-    private LocalDateTime timestamp;
+    private LocalDateTime createdAt;
+    @Indexed(name = "ttl_index", expireAfter = "0s")
+    private Instant expireAt;
+
+    public Url(String id, String url) {
+        this.id = id;
+        this.url = url;
+        createdAt = LocalDateTime.now();
+        expireAt = Instant.now().plusSeconds(EXPIRATION_SECONDS);
+    }
 }

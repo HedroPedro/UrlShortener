@@ -38,13 +38,14 @@ public class UrlService {
         encodedUrl = encoder.encode(encodedUrl);
         byte base62Result[] = base62.encode(encodedUrl.getBytes());
         encodedUrl = base62Result.toString();
-        
-        for(int i = 0; i < 8; i++) {
-            int index = secureRandom.nextInt(0, encodedUrl.length());
-            builder.append(base62Result[index]);
-        }
-        id = builder.toString();
-        Url url = new Url(encodedUrl, id, LocalDateTime.now());
+        do {
+            for(int i = 0; i < 8; i++) {
+                int index = secureRandom.nextInt(0, encodedUrl.length());
+                builder.append(base62Result[index]);
+            }
+            id = builder.toString();
+        } while (repository.existsById(id));
+        Url url = new Url(encodedUrl, id);
         return url;
     }
 
