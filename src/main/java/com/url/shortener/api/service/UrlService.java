@@ -31,22 +31,22 @@ public class UrlService {
     private SecureRandom secureRandom;
 
     public Url createUrl(String fullUrl) {
-        String encodedUrl;
         String id;
         StringBuilder builder = new StringBuilder();
-        encodedUrl = PREFIX + fullUrl;
-        encodedUrl = encoder.encode(encodedUrl);
+        
+        String encodedUrl = encoder.encode(PREFIX + fullUrl);
         byte base62Result[] = base62.encode(encodedUrl.getBytes());
-        encodedUrl = base62Result.toString();
+        String base62String = new String(base62Result);
         do {
+            builder.setLength(0);
             for(int i = 0; i < 8; i++) {
                 int index = secureRandom.nextInt(0, encodedUrl.length());
-                builder.append(base62Result[index]);
+                builder.append(base62String.charAt(index));
             }
             id = builder.toString();
         } while (repository.existsById(id));
-        Url url = new Url(encodedUrl, id);
-        return url;
+        Url url = new Url(id, fullUrl);
+        return repository.save(url);
     }
 
     public String getUrl(String id) {
