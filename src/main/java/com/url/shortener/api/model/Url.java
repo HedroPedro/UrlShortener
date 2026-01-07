@@ -1,6 +1,8 @@
 package com.url.shortener.api.model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.time.Instant;
 
 import org.springframework.cglib.core.Local;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Url {
-    private final static int EXPIRATION_SECONDS = 10 * 24 * 36000; //10 days
+    private final static int EXPIRATION_DAYS = 10;
     @MongoId
     private String id;
     private String url;
@@ -29,6 +31,6 @@ public class Url {
         this.id = id;
         this.url = url;
         createdAt = LocalDateTime.now();
-        expireAt = Instant.now().plusSeconds(EXPIRATION_SECONDS);
+        expireAt = Instant.now().plus(EXPIRATION_DAYS, ChronoUnit.DAYS);
     }
 }
