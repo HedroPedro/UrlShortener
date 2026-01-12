@@ -20,10 +20,12 @@ import com.url.shortener.api.model.Url;
 import com.url.shortener.api.service.UrlService;
 
 import io.github.bucket4j.Bucket;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping(path = "/api/v0/url")
 @CrossOrigin(origins = "*")
+@Tag(name = "Url Shortener")
 public class UrlController {
     @Autowired
     private UrlService urlService;
