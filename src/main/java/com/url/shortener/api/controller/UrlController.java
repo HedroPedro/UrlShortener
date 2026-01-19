@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.url.shortener.api.exception.UrlKeyNotFoundException;
+import com.url.shortener.api.model.RequestUrl;
 import com.url.shortener.api.model.Url;
 import com.url.shortener.api.service.UrlService;
 
@@ -34,14 +35,11 @@ public class UrlController {
     private Bucket bucket;
 
     @PostMapping
-    public ResponseEntity<Url> createUrl(@RequestBody Map<String, String> req) {
+    public ResponseEntity<Url> createUrl(@RequestBody RequestUrl reqUrl) {
         if (!bucket.tryConsume(1))
             return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
 
-        String fullUrl = Optional.of(req.get("url"))
-            .orElseThrow(() -> new UrlKeyNotFoundException());
-
-        Url url = urlService.createUrl(fullUrl);
+        Url url = urlService.createUrl(reqUrl.getFullUrl());
         return new ResponseEntity<>(url, HttpStatus.CREATED);
     }
 
@@ -52,6 +50,5 @@ public class UrlController {
         String url = urlService.getUrl(id);
         return new ResponseEntity<String>(url, HttpStatus.MOVED_PERMANENTLY);
     }
-
 
 }
