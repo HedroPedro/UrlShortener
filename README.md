@@ -8,7 +8,7 @@ The backend of a URL Shortener made in Java with Spring Boot and MongoDB as data
 - Your favorite IDE or text editor
 
 # How to run
-On Linux Systems use:
+On Unix Systems use:
 ```bash
 ./gradlew bootRun
 ```
