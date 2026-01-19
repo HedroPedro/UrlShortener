@@ -14,7 +14,7 @@ import com.url.shortener.api.model.Url;
 public class UrlRepositoryTests {
     
     /*@Autowired
-    private UrlRepository repository;*/
+    private UrlRepository repository;
 
     @BeforeAll
     public void setup() {
@@ -22,7 +22,7 @@ public class UrlRepositoryTests {
         //repository.save(url);
     }
 
-    /*@Test
+    @Test
     public void testFindUrlById() {
         Url newUrl = repository.findById("aa").get();
     
