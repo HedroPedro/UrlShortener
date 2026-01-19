@@ -30,7 +30,6 @@ public class UrlService {
     public Url createUrl(String fullUrl) {
         String id;
         StringBuilder builder = new StringBuilder();
-        
         String encodedUrl = encoder.encode(PREFIX + fullUrl);
         byte base62Result[] = base62.encode(encodedUrl.getBytes());
         String base62String = new String(base62Result);
