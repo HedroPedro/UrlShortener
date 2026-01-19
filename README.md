@@ -2,13 +2,13 @@
 The backend of a URL Shortener made in Java with Spring Boot and MongoDB as database
 
 # Requiriments
-- Java >= 21.0.0
+- Java >= 25.0.0
 - Gradle
 - MongoDB
 - Your favorite IDE or text editor
 
 # How to run
-On Unix Systems use:
+On Unix-like Systems use:
 ```bash
 ./gradlew bootRun
 ```
